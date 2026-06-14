@@ -1,0 +1,6 @@
+{% if config.extra.security %}
+<meta
+  http-equiv="Content-Security-Policy"
+  content="default-src 'none'; img-src 'self'; object-src 'none'; script-src 'none'; style-src 'unsafe-inline'"
+/>
+{% endif %}

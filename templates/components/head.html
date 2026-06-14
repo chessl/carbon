@@ -1,0 +1,34 @@
+<head>
+  {% include "components/security.html" %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% if config.extra.favicon %}
+  <link rel="shortcut icon" href="{{ config.extra.favicon }}" />
+  {% endif %}
+  <title>{% if title %}{{ title }} | {% endif %}{{ config.title }}</title>
+  <!-- seo tags -->
+  <meta
+    name="title"
+    content="{% if title %}{{ title }}{% else %}{{ config.title }}{% endif %}"
+  />
+  {% if config.description %}
+  <meta name="description" content="{{ config.description }}" />
+  {% endif %} {% if config.extra.keywords %}
+  <meta name="keywords" content="{{ config.extra.keywords }}" />
+  {% endif %}
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  {% if config.generate_rss %}
+  <link
+    href="{{ config.base_url }}/rss.xml"
+    rel="alternate"
+    title="{{ config.title }}"
+    type="application/rss+xml"
+  />
+  <link
+    href="{{ config.base_url }}/atom.xml"
+    rel="alternate"
+    title="{{ config.title }}"
+    type="application/atom+xml"
+  />
+  {% endif %} {% include "components/style.html" %}
+</head>

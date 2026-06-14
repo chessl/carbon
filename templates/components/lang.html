@@ -1,0 +1,7 @@
+{%- if page and page.lang -%}
+{{ page.lang }}
+{%- elif section and section.lang -%}
+{{ section.lang }}
+{%- else -%}
+{{ config.default_language }}
+{%- endif -%}

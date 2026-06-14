@@ -1,0 +1,13 @@
+{% if page and page.extra and page.extra.changelog %}
+<div class="changelog">
+    <p>Changelog</p>
+    <ul>
+        {% for entry in page.extra.changelog %}
+        <li>
+            <i><time>{{ entry.date }}</time></i>
+            <span>{{ entry.commit }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

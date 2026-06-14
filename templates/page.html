@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %}
+<h1>{{ page.title }}</h1>
+{% if page.date %}
+<p>
+  Published: {% include "components/datetime.html" %}{% if page.updated
+  %}Updated: {% include "components/updated.html" %}{% endif %}
+</p>
+{% endif %} {% if page.toc %} {% include "components/toc.html" %} {% endif %} {{
+page.content | safe }} {% include "components/changelog.html" %}
+
+<div class="tags">
+  {% if page.taxonomies and page.taxonomies.tags %} {% for tag in
+  page.taxonomies.tags %}
+  <a href="/tags/{{ tag | slugify }}/">#{{ tag }}</a>
+  {% endfor %} {% endif %}
+</div>
+{% endblock %}

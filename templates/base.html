@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="{% include "components/lang.html" %}">
+    {% include "components/head.html" %}
+    <body>
+        {% include "components/header.html" %}
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        {% include "components/footer.html" %}
+    </body>
+</html>

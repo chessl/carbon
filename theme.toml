@@ -1,0 +1,9 @@
+name = "carbon"
+description = "A dark, minimalistic, and simple blog theme (adapted from ~chess/carbon for Zola)"
+license = "MIT"
+homepage = "https://git.sr.ht/~chess/carbon"
+min_version = "0.19.0"
+
+[extra]
+author = "chess"
+source = "https://git.sr.ht/~chess/carbon"

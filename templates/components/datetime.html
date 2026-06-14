@@ -1,0 +1,3 @@
+{%- if page and page.date -%}
+<time datetime="{{ page.date | date(format="%Y-%m-%dT%H:%M") }}">{{ page.date | date(format="%Y-%m-%d") }}</time>
+{%- endif -%}
