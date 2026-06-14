@@ -92,13 +92,13 @@
     {% if config.generate_feed %}
     {% block feed %}
     <link
-			href="{{ get_url(path="atom.xml") }}"
+			href="{{ get_url(path="atom.xml", lang=lang) }}"
 			rel="alternate"
       title="{{ config.title }}"
 			type="application/atom+xml"
 		/>
     <link
-			href="{{ get_url(path="rss.xml") }}"
+			href="{{ get_url(path="rss.xml", lang=lang) }}"
       rel="alternate"
       title="{{ config.title }}"
       type="application/rss+xml"
@@ -110,12 +110,23 @@
   </head>
   <body>
 		<header>
+			<p align="right">
+		    {% if lang == "zh" %}
+			    <a href="{{ get_url(path="/en/") }}">
+						En
+						</a>
+						{% else %}
+			    <a href="{{ get_url(path="/") }}">
+						中
+					</a>
+				{% endif %}
+			</p>
 		  <h1 class="title">
-		    <a href="/">{{ config.title }}</a>
+		    <a href="{{ get_url(path="/", lang=lang) }}">{{ config.title }}</a>
 		  </h1>
 		  <nav aria-label="site">
 		    {% for menu in config.extra.menus %}
-		    <a href="{{ menu.url | safe }}" {% if menu.new_tab %}target="_blank" rel="noreferrer noopener"{% endif %}>{{ menu.name }}</a>
+		    <a href="{{ get_url(path=(menu.url | trim_start_matches(pat=`/`)), lang=lang) }}" {% if menu.new_tab %}target="_blank" rel="noreferrer noopener"{% endif %}>{{ menu.name }}</a>
 		    {% endfor %}
 		  </nav>
 		</header>
@@ -124,8 +135,8 @@
 		    <p id="footer-directive">
 		        <small>
 		            Subscribe via
-		            <a href="{{ get_url(path="rss.xml") }}">rss</a>,
-		            <a href="{{ get_url(path="atom.xml") }}">atom</a>
+		            <a href="{{ get_url(path="rss.xml", lang=lang) }}">rss</a>,
+		            <a href="{{ get_url(path="atom.xml", lang=lang) }}">atom</a>
 		            or just say <a href="mailto:{{ config.extra.author_email }}">hello</a>.
 		        </small>
 		    </p>
