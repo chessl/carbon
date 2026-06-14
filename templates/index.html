@@ -1,14 +1,2 @@
-{% extends "base.html" %}
-
-{% block content %}
-{{ section.content | safe }}
-<ul class="blog-posts">
-    {% set blog = get_section(path="posts/_index.md") %}
-    {% for page in blog.pages | slice(end=10) %}
-    <li>
-        <span>{% include "components/datetime.html" %}</span>
-        <a href="{{ page.permalink }}">{{ page.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% endblock %}
+{% extends "base.html" %} {% block content %} {{ section.content | safe }} {%
+endblock %}

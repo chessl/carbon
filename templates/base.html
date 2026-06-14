@@ -1,11 +1,137 @@
-<!DOCTYPE html>
-<html lang="{% include "components/lang.html" %}">
-    {% include "components/head.html" %}
-    <body>
-        {% include "components/header.html" %}
-        <main>
-            {% block content %}{% endblock %}
-        </main>
-        {% include "components/footer.html" %}
-    </body>
+<!doctype html>
+<html lang="{{ lang }}">
+  <head>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src 'self'; object-src 'none'; script-src 'none'; style-src 'unsafe-inline'"
+    />
+    <meta charset="utf-8" />
+		<meta content="ie=edge" http-equiv="x-ua-compatible" />
+		<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		{% if page.title %}
+    {% set title = page.title %}
+    {% elif section.title %}
+    {% set title = section.title %}
+    {% elif config.title %}
+    {% set title = config.title %}
+    {% endif %}
+
+    {% if page.extra.author %}
+    {% set author = page.extra.author %}
+    {% elif section.extra.author %}
+    {% set author = section.extra.author %}
+    {% elif config.extra.author %}
+    {% set author = config.extra.author %}
+    {% endif %}
+
+    {% if page.description %}
+    {% set description = page.description | truncate(length=150) %}
+    {% elif section.description %}
+    {% set description = section.description | truncate(length=150) %}
+    {% elif config.description %}
+    {% set description = config.description | truncate(length=150) %}
+    {% endif %}
+
+    {% if page.extra.image %}
+    {% set image = get_url(path=page.extra.image, trailing_slash=false) %}
+    {% elif section.extra.image %}
+    {% set image = get_url(path=section.extra.image, trailing_slash=false) %}
+    {% elif config.extra.logo %}
+    {% set image = get_url(path=config.extra.logo, trailing_slash=false) %}
+    {% endif %}
+
+    {% if page.permalink %}
+    {% set url = page.permalink %}
+    {% elif section.permalink %}
+    {% set url = section.permalink %}
+    {% elif config.base_url %}
+    {% set url = config.base_url %}
+    {% endif %}
+
+		{% if title %}<title>{{ title }}</title>{% endif %}
+    {% block metatags %}
+    {% if title %}<meta name="title" content="{{ title }}">{% endif %}
+    {% if author %}<meta name="author" content="{{ author }}">{% endif %}
+    {% if description %}<meta name="description" content="{{ description }}">{% endif %}
+    <meta name="generator" content="bowen">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url | safe }}">
+    {% if title %}<meta property="og:site_name" content="{{ config.title }}">{% endif %}
+    {% if title %}<meta property="og:title" content="{{ title }}">{% endif %}
+    {% if description %}<meta property="og:description" content="{{ description }}">{% endif %}
+    {% if image %}<meta property="og:image" content="{{ image }}">{% endif %}
+
+		<!-- twitter card start -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url | safe }}">
+    {% if title %}<meta property="twitter:title" content="{{ title }}">{% endif %}
+    {% if description %}<meta property="twitter:description" content="{{ description }}">{% endif %}
+    {% if image %}<meta property="twitter:image" content="{{ image }}">{% endif %}
+		<!-- twitter card end -->
+
+    <link rel="canonical" href="{{ url | safe }}">
+    {% if image %}<link rel="shortcut icon" type="image/x-icon" href="{{ get_url(path=config.extra.logo, trailing_slash=false) }}">{% endif %}
+    <script type="application/ld+json">
+        {
+            {% if description %}"description":"{{ description | safe }}",{% endif %}
+            "url":"{{ url | safe }}",
+            "@type":"WebSite",
+            {% if title %}"headline":"{{ title | safe }}",{% endif %}
+            {% if title %}"name":"{{ title | safe }}",{% endif %}
+            {% if author %}"author":{
+                "@type":"Person",
+                "name":"{{ author | safe }}"
+            },{% endif %}
+            "@context":"https://schema.org"
+        }
+    </script>
+    {% endblock metatags %}
+    {% if config.generate_feed %}
+    {% block feed %}
+    <link
+			href="{{ get_url(path="atom.xml") }}"
+			rel="alternate"
+      title="{{ config.title }}"
+			type="application/atom+xml"
+		/>
+    <link
+			href="{{ get_url(path="rss.xml") }}"
+      rel="alternate"
+      title="{{ config.title }}"
+      type="application/rss+xml"
+    />
+    {% endblock feed %}
+    {% endif %}
+    {% include "components/style.html" %}
+
+  </head>
+  <body>
+		<header>
+		  <h1 class="title">
+		    <a href="/">{{ config.title }}</a>
+		  </h1>
+		  <nav aria-label="site">
+		    {% for menu in config.extra.menus %}
+		    <a href="{{ menu.url | safe }}" {% if menu.new_tab %}target="_blank" rel="noreferrer noopener"{% endif %}>{{ menu.name }}</a>
+		    {% endfor %}
+		  </nav>
+		</header>
+    <main>{% block content %}{% endblock %}</main>
+		<footer>
+		    <p id="footer-directive">
+		        <small>
+		            Subscribe via
+		            <a href="{{ get_url(path="rss.xml") }}">rss</a>,
+		            <a href="{{ get_url(path="atom.xml") }}">atom</a>
+		            or just say <a href="mailto:{{ config.extra.author_email }}">hello</a>.
+		        </small>
+		    </p>
+		    {% if config.extra.copyright %}
+		    <p>{{ config.extra.copyright | safe }}</p>
+		    {% endif %}
+		</footer>
+  </body>
 </html>
