@@ -11,7 +11,7 @@ page.content | safe }} {% include "components/changelog.html" %}
 <div class="tags">
   {% if page.taxonomies and page.taxonomies.tags %} {% for tag in
   page.taxonomies.tags %}
-  <a href="/tags/{{ tag | slugify }}/">#{{ tag }}</a>
+	<a href="{{ get_taxonomy_url(kind="tags", name=tag, lang=lang) }}">#{{ tag }}</a>
   {% endfor %} {% endif %}
 </div>
 {% endblock %}
